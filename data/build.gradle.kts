@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
+    kotlin("kapt")
 }
 
 java {
@@ -10,4 +11,8 @@ java {
 
 dependencies {
     implementation(project(":domain"))
+
+    koin()
+    retrofit()
+    moshi()
 }

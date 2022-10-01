@@ -10,6 +10,8 @@ object Versions {
     const val compose = "1.3.1"
     const val composeUi = "1.3.0-beta03"
 
+    const val retrofit = "2.9.0"
+
     const val junit = "4.13.2"
     const val junitExtensions = "1.1.3"
     const val espressoCore = "3.4.0"

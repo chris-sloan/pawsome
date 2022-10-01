@@ -38,6 +38,18 @@ fun DependencyHandler.material3() {
     implementation("androidx.compose.material3:material3:${Versions.material3}")
 }
 
+fun DependencyHandler.retrofit() {
+    implementation("com.squareup.retrofit2:retrofit:${Versions.retrofit}")
+    implementation("com.squareup.retrofit2:converter-moshi:${Versions.retrofit}")
+}
+
+fun DependencyHandler.moshi() {
+    val version = "1.14.0"
+    implementation("com.squareup.moshi:moshi:$version")
+    implementation("com.squareup.moshi:moshi-adapters:$version")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:$version")
+}
+
 fun DependencyHandler.junit() {
     testImplementation("junit:junit:${Versions.junit}")
 }
