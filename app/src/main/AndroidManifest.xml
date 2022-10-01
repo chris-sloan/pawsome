@@ -16,7 +16,7 @@
         <activity
             android:name=".presentation.PawsomeActivity"
             android:exported="true"
-            android:theme="@style/Theme.Pawsome">
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
