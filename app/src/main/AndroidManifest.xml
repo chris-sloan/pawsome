@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Pawsome"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.PawsomeActivity"
             android:exported="true"
             android:theme="@style/Theme.Pawsome">
             <intent-filter>
