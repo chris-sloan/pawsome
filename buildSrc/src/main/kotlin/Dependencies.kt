@@ -1,5 +1,17 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
+fun DependencyHandler.koin() {
+    implementation("io.insert-koin:koin-core:${Versions.koin}")
+    testImplementation("io.insert-koin:koin-test:${Versions.koin}")
+}
+
+fun DependencyHandler.koinAndroid() {
+    implementation("io.insert-koin:koin-android:${Versions.koin}")
+    implementation("io.insert-koin:koin-androidx-compose:${Versions.koin}")
+    testImplementation("io.insert-koin:koin-android:${Versions.koin}")
+
+}
+
 fun DependencyHandler.coreKtx() {
     implementation("androidx.core:core-ktx:${Versions.coreKtx}")
 }
@@ -42,6 +54,10 @@ fun DependencyHandler.androidTest() {
 
 private fun DependencyHandler.implementation(depName: String) {
     add("implementation", depName)
+}
+
+private fun DependencyHandler.kapt(depName: String) {
+    add("kapt", depName)
 }
 
 private fun DependencyHandler.testImplementation(depName: String) {

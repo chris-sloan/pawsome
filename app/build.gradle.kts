@@ -46,6 +46,9 @@ android {
 dependencies {
     implementation(project(":data"))
     implementation(project(":presentation"))
+
+    koinAndroid()
+
     coreKtx()
     lifecycle()
     activityCompose()
