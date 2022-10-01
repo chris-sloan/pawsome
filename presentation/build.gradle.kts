@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
 
     coreKtx()
     lifecycle()
