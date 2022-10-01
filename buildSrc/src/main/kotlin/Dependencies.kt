@@ -13,13 +13,13 @@ fun DependencyHandler.activityCompose() {
 }
 
 fun DependencyHandler.compose() {
-    implementation("androidx.compose.ui:ui:${Versions.compose}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${Versions.compose}")
+    implementation("androidx.compose.ui:ui:${Versions.composeUi}")
+    implementation("androidx.compose.ui:ui-tooling-preview:${Versions.composeUi}")
 }
 
 fun DependencyHandler.composeDebug() {
-    debugImplementation("androidx.compose.ui:ui-tooling:${Versions.compose}")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:${Versions.compose}")
+    debugImplementation("androidx.compose.ui:ui-tooling:${Versions.composeUi}")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:${Versions.composeUi}")
 }
 
 fun DependencyHandler.material3() {

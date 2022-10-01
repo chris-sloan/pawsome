@@ -1,4 +1,4 @@
-package com.chrissloan.paw_some.ui.theme
+package com.chrissloan.paw_some.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

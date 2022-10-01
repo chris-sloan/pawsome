@@ -5,7 +5,8 @@ object Versions {
 
     const val material3 = "1.0.0-alpha02"
     const val activityCompose = "1.3.1"
-    const val compose = "1.1.1"
+    const val compose = "1.3.1"
+    const val composeUi = "1.3.0-beta03"
 
     const val junit = "4.13.2"
     const val junitExtensions = "1.1.3"
