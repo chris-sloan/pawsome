@@ -33,7 +33,7 @@ fun DependencyHandler.junit() {
 fun DependencyHandler.androidTest() {
     androidTestImplementation("androidx.test.ext:junit:${Versions.junitExtensions}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espressoCore}")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${Versions.compose}")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${Versions.composeUi}")
 }
 
 ///////////////
