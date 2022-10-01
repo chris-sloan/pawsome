@@ -5,6 +5,8 @@ object Versions {
 
     const val koin = "3.2.0"
 
+    const val coroutines = "1.3.4"
+
     const val material3 = "1.0.0-alpha02"
     const val activityCompose = "1.3.1"
     const val compose = "1.3.1"
@@ -13,6 +15,7 @@ object Versions {
     const val retrofit = "2.9.0"
 
     const val junit = "4.13.2"
+    const val mockk = "1.13.2"
     const val junitExtensions = "1.1.3"
     const val espressoCore = "3.4.0"
 }

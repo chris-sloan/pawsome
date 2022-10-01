@@ -7,3 +7,11 @@ java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
+dependencies {
+    coroutines()
+
+    junit()
+    mockk()
+
+    testImplementation(kotlin("test"))
+}

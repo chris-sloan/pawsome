@@ -13,6 +13,11 @@ dependencies {
     implementation(project(":domain"))
 
     koin()
+    coroutines()
+
     retrofit()
     moshi()
+
+    junit()
+    mockk()
 }

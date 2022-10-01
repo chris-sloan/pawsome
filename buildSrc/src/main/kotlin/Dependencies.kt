@@ -9,7 +9,13 @@ fun DependencyHandler.koinAndroid() {
     implementation("io.insert-koin:koin-android:${Versions.koin}")
     implementation("io.insert-koin:koin-androidx-compose:${Versions.koin}")
     testImplementation("io.insert-koin:koin-android:${Versions.koin}")
+}
 
+
+fun DependencyHandler.coroutines() {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$${Versions.coroutines}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
+    coroutinesTest()
 }
 
 fun DependencyHandler.coreKtx() {
@@ -50,8 +56,16 @@ fun DependencyHandler.moshi() {
     kapt("com.squareup.moshi:moshi-kotlin-codegen:$version")
 }
 
+fun DependencyHandler.coroutinesTest() {
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}")
+}
+
 fun DependencyHandler.junit() {
     testImplementation("junit:junit:${Versions.junit}")
+}
+
+fun DependencyHandler.mockk() {
+    testImplementation("io.mockk:mockk:${Versions.mockk}")
 }
 
 fun DependencyHandler.androidTest() {
