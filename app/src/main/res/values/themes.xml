@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+    <style name="Theme.Pawsome.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_paw_print</item>
         <item name="postSplashScreenTheme">@style/Theme.Pawsome</item>
         <item name="windowSplashScreenBackground">@color/pink_40</item>
     </style>
 
-    <style name="Theme.Pawsome" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Pawsome" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/pink_40</item>
+    </style>
 
 </resources>

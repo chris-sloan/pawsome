@@ -33,6 +33,7 @@ fun DependencyHandler.activityCompose() {
 fun DependencyHandler.compose() {
     implementation("androidx.compose.ui:ui:${Versions.composeUi}")
     implementation("androidx.compose.ui:ui-tooling-preview:${Versions.composeUi}")
+    implementation("androidx.compose.material:material:${Versions.composeUi}")
 }
 
 fun DependencyHandler.composeDebug() {
@@ -44,16 +45,19 @@ fun DependencyHandler.material3() {
     implementation("androidx.compose.material3:material3:${Versions.material3}")
 }
 
+fun DependencyHandler.coil() {
+    implementation("io.coil-kt:coil-compose:${Versions.coil}")
+}
+
 fun DependencyHandler.retrofit() {
     implementation("com.squareup.retrofit2:retrofit:${Versions.retrofit}")
     implementation("com.squareup.retrofit2:converter-moshi:${Versions.retrofit}")
 }
 
 fun DependencyHandler.moshi() {
-    val version = "1.14.0"
-    implementation("com.squareup.moshi:moshi:$version")
-    implementation("com.squareup.moshi:moshi-adapters:$version")
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:$version")
+    implementation("com.squareup.moshi:moshi:${Versions.moshi}")
+    implementation("com.squareup.moshi:moshi-adapters:${Versions.moshi}")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}")
 }
 
 fun DependencyHandler.coroutinesTest() {

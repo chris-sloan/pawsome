@@ -41,11 +41,14 @@ android {
 dependencies {
     implementation(project(":domain"))
 
+    koinAndroid()
+
     coreKtx()
     lifecycle()
     activityCompose()
     compose()
     material3()
+    coil()
 
     implementation("com.airbnb.android:lottie-compose:5.2.0")
     implementation("androidx.navigation:navigation-compose:2.5.2")
