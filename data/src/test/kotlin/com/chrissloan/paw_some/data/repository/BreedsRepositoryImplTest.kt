@@ -3,6 +3,8 @@ package com.chrissloan.paw_some.data.repository
 import com.chrissloan.paw_some.data.service.CatApiService
 import com.chrissloan.paw_some.domain.core.DomainResponse
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
+import com.chrissloan.paw_some.domain.entity.ImageDomainEntity
+import com.chrissloan.paw_some.domain.entity.WeightDomainEntity
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlin.test.assertTrue
@@ -57,12 +59,39 @@ internal class BreedsRepositoryImplTest {
                 BreedDomainEntity(
                     id = "item_$i",
                     name = "name_$i",
-                    temperament = "calm",
-                    lifeSpan = "donkeys",
-                    altNames = "othername, shortername",
-                    wikiUrl = "www.testurl.com",
-                    origin = "",
-                    weightImperial = "6lbs",
+                    temperament = "temperament",
+                    lifeSpan = "lifeSpan",
+                    altNames = "altNames",
+                    wikiUrl = "wikiUrl",
+                    origin = "origin",
+                    weight = WeightDomainEntity(imperial = "imperial", metric = "metric"),
+                    image = ImageDomainEntity(id = "imageId_$i", width = 200, height = 200, url = "url"),
+                    countryCodes = "countryCodes",
+                    countryCode = "countryCode",
+                    description = "description",
+                    referenceImageId = "referenceImageId",
+                    indoor = 1,
+                    lap = 1,
+                    adaptability = 1,
+                    affectionLevel = 1,
+                    childFriendly = 1,
+                    dogFriendly = 1,
+                    energyLevel = 1,
+                    grooming = 1,
+                    healthIssues = 1,
+                    intelligence = 1,
+                    sheddingLevel = 1,
+                    socialNeeds = 1,
+                    strangerFriendly = 1,
+                    vocalisation = 1,
+                    experimental = 1,
+                    hairless = 1,
+                    natural = 1,
+                    rare = 1,
+                    rex = 1,
+                    suppressedTail = 1,
+                    shortLegs = 1,
+                    hypoallergenic = 1
                 )
             )
         }
