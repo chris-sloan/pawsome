@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Our dark theme -->
+    <style name="Theme.Pawsome" parent="Platform.Theme.Pawsome" >
+        <item name="colorPrimary">@color/blue300</item>
+        <item name="colorPrimaryDark">@color/blue400</item>
+        <item name="colorAccent">@color/yellow400</item>
+    </style>
+
+</resources>
+

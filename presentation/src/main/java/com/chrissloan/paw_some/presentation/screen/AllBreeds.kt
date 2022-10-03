@@ -14,7 +14,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -59,7 +59,8 @@ fun AllBreedsScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Pawsome") },
-                backgroundColor = MaterialTheme.colors.primary,
+                backgroundColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -101,7 +102,7 @@ fun AllBreedsList(
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
         items(items = breeds) { breed ->
             Card(
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = MaterialTheme.colorScheme.background,
                 modifier = Modifier
                     .padding(8.dp)
                     .clickable { clickListener(breed) },
@@ -115,12 +116,13 @@ fun AllBreedsList(
 
 @Composable
 private fun CardContent(breed: BreedDomainEntity) {
-    val showImage = breed.image.url != null
+    val showImage = false // breed.image.url != null
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+
     ) {
         if (showImage) {
             AsyncImage(
@@ -142,8 +144,8 @@ private fun CardContent(breed: BreedDomainEntity) {
         )
         Text(
             text = breed.name,
-            color = MaterialTheme.colors.primary,
-            style = MaterialTheme.typography.h5.copy(
+            color = MaterialTheme.colorScheme.secondary,
+            style = MaterialTheme.typography.headlineMedium.copy(
                 fontWeight = FontWeight.SemiBold
             ),
             textAlign = TextAlign.Start,

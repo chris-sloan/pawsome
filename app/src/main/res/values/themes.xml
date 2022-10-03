@@ -3,11 +3,22 @@
     <style name="Theme.Pawsome.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_paw_print</item>
         <item name="postSplashScreenTheme">@style/Theme.Pawsome</item>
-        <item name="windowSplashScreenBackground">@color/pink_40</item>
+        <item name="windowSplashScreenBackground">@color/launcher_background_color</item>
     </style>
 
-    <style name="Theme.Pawsome" parent="android:Theme.Material.NoActionBar">
-        <item name="android:statusBarColor">@color/pink_40</item>
+    <style name="Platform.Theme.Pawsome" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/black30</item>
+    </style>
+
+    <style name="Theme.Pawsome" parent="Platform.Theme.Pawsome">
+        <item name="colorPrimary">@color/blue500</item>
+        <item name="colorPrimaryDark">@color/blue800</item>
+        <item name="colorAccent">@color/yellow700</item>
+    </style>
+
+    <style name="Theme.Pawsome.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>
