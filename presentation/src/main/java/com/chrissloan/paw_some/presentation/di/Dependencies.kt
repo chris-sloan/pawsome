@@ -1,7 +1,7 @@
 package com.chrissloan.paw_some.presentation.di
 
 import com.chrissloan.paw_some.domain.usecase.FetchBreedsUseCase
-import com.chrissloan.paw_some.presentation.screen.AllBreedsViewModel
+import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

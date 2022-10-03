@@ -5,14 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.chrissloan.paw_some.presentation.screen.AllBreedsScreen
+import com.chrissloan.paw_some.presentation.screen.SetupNavGraph
 import com.chrissloan.paw_some.presentation.theme.PawsomeTheme
 
 class PawsomeActivity : ComponentActivity() {
@@ -75,21 +71,5 @@ class PawsomeActivity : ComponentActivity() {
             )
         val alphaValues =
             floatArrayOf(1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0.8f, 0.6f, 0.4f, 0.2f, 0f)
-    }
-}
-
-sealed class Screen(val route: String) {
-    object Breeds : Screen("breeds_screen")
-}
-
-@Composable
-fun SetupNavGraph(navController: NavHostController) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Breeds.route
-    ) {
-        composable(route = Screen.Breeds.route) {
-            AllBreedsScreen()
-        }
     }
 }

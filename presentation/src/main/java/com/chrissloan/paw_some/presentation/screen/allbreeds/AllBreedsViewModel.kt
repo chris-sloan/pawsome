@@ -1,5 +1,6 @@
-package com.chrissloan.paw_some.presentation.screen
+package com.chrissloan.paw_some.presentation.screen.allbreeds
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,6 +13,7 @@ import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.domain.usecase.FetchBreedsUseCase
 import kotlinx.coroutines.launch
 
+@Stable
 class AllBreedsViewModel(
     private val fetchBreeds: FetchBreedsUseCase
 ) : ViewModel() {
@@ -39,22 +41,42 @@ class AllBreedsViewModel(
         }
     }
 
+    fun handleBreedSelectionAction(breedDomainEntity: BreedDomainEntity) {
+        uiState = uiState.copy(
+            navigationEvent = AllBreedsNavigationEvent.ShowBreed(breedDomainEntity)
+        )
+    }
+
     fun handleAction(action: AllBreedsAction) {
-        when (action) {
-            is AllBreedsAction.BreedSelected -> TODO()
-            AllBreedsAction.ErrorMessageShown -> uiState = uiState.copy(errorMessage = null)
+        uiState = when (action) {
+            is AllBreedsAction.BreedSelected -> uiState.copy(
+                navigationEvent = AllBreedsNavigationEvent.ShowBreed(action.breed)
+            )
+            AllBreedsAction.ErrorMessageShown -> uiState.copy(errorMessage = null)
         }
     }
 
+    fun navigationEventComplete() {
+        uiState = uiState.copy(navigationEvent = null)
+    }
+
+    @Stable
     data class AllBreedsUiState(
         val isLoading: Boolean = true,
         val breeds: List<BreedDomainEntity> = emptyList(),
-        val errorMessage: String? = null
+        val errorMessage: String? = null,
+        val navigationEvent: AllBreedsNavigationEvent? = null
     )
 
+    @Stable
     sealed class AllBreedsAction {
         object ErrorMessageShown : AllBreedsAction()
-        data class BreedSelected(val breed: String) : AllBreedsAction()
+        data class BreedSelected(val breed: BreedDomainEntity) : AllBreedsAction()
+    }
+
+    @Stable
+    sealed class AllBreedsNavigationEvent {
+        data class ShowBreed(val breed: BreedDomainEntity) : AllBreedsNavigationEvent()
     }
 
     companion object {

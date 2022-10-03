@@ -1,4 +1,4 @@
-package com.chrissloan.paw_some.presentation.screen
+package com.chrissloan.paw_some.presentation.screen.allbreeds
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -9,20 +9,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,18 +42,37 @@ import coil.request.ImageRequest
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.presentation.R
 import com.chrissloan.paw_some.presentation.common.LoadingView
-import com.chrissloan.paw_some.presentation.screen.AllBreedsViewModel.AllBreedsAction.BreedSelected
-import com.chrissloan.paw_some.presentation.screen.AllBreedsViewModel.AllBreedsAction.ErrorMessageShown
+import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsAction.ErrorMessageShown
+import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent
+import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent.ShowBreed
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AllBreedsScreen(
+    onBreedSelected: (BreedDomainEntity) -> Unit,
     viewModel: AllBreedsViewModel = getViewModel()
 ) {
     val uiState = viewModel.uiState
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
+
+    if (uiState.navigationEvent != null) {
+        viewModel.navigationEventComplete()
+        HandleNavigationEvent(
+            navigationEvent = uiState.navigationEvent,
+            onBreedSelected = onBreedSelected
+        )
+    }
+
+    if (uiState.errorMessage != null) {
+        LaunchedEffect(key1 = uiState.errorMessage) {
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(message = uiState.errorMessage)
+                viewModel.handleAction(ErrorMessageShown)
+            }
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -77,17 +97,10 @@ fun AllBreedsScreen(
         Surface(modifier = Modifier.padding(it)) {
             if (uiState.isLoading) {
                 LoadingView()
-            } else if (uiState.errorMessage != null) {
-                LaunchedEffect(key1 = uiState.errorMessage) {
-                    scope.launch {
-                        scaffoldState.snackbarHostState.showSnackbar(message = uiState.errorMessage)
-                        viewModel.handleAction(ErrorMessageShown)
-                    }
-                }
             } else {
                 AllBreedsList(
-                    breeds = uiState.breeds,
-                    clickListener = { (breed) -> viewModel.handleAction(BreedSelected(breed)) }
+                    breeds = { uiState.breeds },
+                    clickListener = viewModel::handleBreedSelectionAction
                 )
             }
         }
@@ -96,11 +109,16 @@ fun AllBreedsScreen(
 
 @Composable
 fun AllBreedsList(
-    breeds: List<BreedDomainEntity>,
+    breeds: () -> List<BreedDomainEntity>,
     clickListener: (BreedDomainEntity) -> Unit
 ) {
-    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-        items(items = breeds) { breed ->
+    val scrollState = rememberLazyListState(initialFirstVisibleItemScrollOffset = 0)
+
+    LazyColumn(
+        modifier = Modifier.padding(vertical = 4.dp),
+        state = scrollState,
+    ) {
+        items(items = breeds()) { breed ->
             Card(
                 backgroundColor = MaterialTheme.colorScheme.background,
                 modifier = Modifier
@@ -116,14 +134,14 @@ fun AllBreedsList(
 
 @Composable
 private fun CardContent(breed: BreedDomainEntity) {
-    val showImage = false // breed.image.url != null
+    val showImage = breed.image.url != null
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
 
-    ) {
+        ) {
         if (showImage) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -132,7 +150,7 @@ private fun CardContent(breed: BreedDomainEntity) {
                     .build(),
                 placeholder = painterResource(R.drawable.image_placeholder),
                 contentDescription = breed.name,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .size(80.dp)
                     .clip(RoundedCornerShape(size = 4.dp))
@@ -151,6 +169,16 @@ private fun CardContent(breed: BreedDomainEntity) {
             textAlign = TextAlign.Start,
             fontFamily = FontFamily.SansSerif
         )
+    }
+}
+
+@Composable
+fun HandleNavigationEvent(
+    navigationEvent: AllBreedsNavigationEvent,
+    onBreedSelected: (BreedDomainEntity) -> Unit
+) {
+    when (navigationEvent) {
+        is ShowBreed -> onBreedSelected(navigationEvent.breed)
     }
 }
 
