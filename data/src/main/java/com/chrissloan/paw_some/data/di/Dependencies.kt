@@ -13,6 +13,6 @@ object Dependencies {
     }
 
     val repositoryModule = module {
-        single<BreedsRepository> { BreedsRepositoryImpl(get()) }
+        single<BreedsRepository> { BreedsRepositoryImpl(get(), get()) }
     }
 }
