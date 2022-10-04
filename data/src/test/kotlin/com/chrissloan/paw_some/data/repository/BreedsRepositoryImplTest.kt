@@ -1,11 +1,13 @@
 package com.chrissloan.paw_some.data.repository
 
 import com.chrissloan.paw_some.data.service.CatApiService
+import com.chrissloan.paw_some.data.utils.TimeUtils
 import com.chrissloan.paw_some.domain.core.DomainResponse
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.domain.entity.ImageDomainEntity
 import com.chrissloan.paw_some.domain.entity.WeightDomainEntity
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
@@ -14,13 +16,17 @@ import org.junit.Test
 internal class BreedsRepositoryImplTest {
 
     private val catApiService: CatApiService = mockk()
+    private val timeUtils: TimeUtils = mockk {
+        every { currentTime() } returns 1_000_000L
+        every { minutesMs(any()) } returns 1000L
+    }
     private lateinit var sut: BreedsRepositoryImpl
 
     @Test
     fun `given catApiService returns emptyList, when service is called, then return Content with an empty list`() =
         runBlocking {
             coEvery { catApiService.getAllBreeds() } returns emptyList()
-            sut = BreedsRepositoryImpl(catApiService)
+            sut = BreedsRepositoryImpl(catApiService, timeUtils)
 
             val result = sut.getAllBreeds()
 
@@ -33,7 +39,7 @@ internal class BreedsRepositoryImplTest {
         runBlocking {
             val domainEntityList = createBreedDomainEntityList(6)
             coEvery { catApiService.getAllBreeds() } returns domainEntityList
-            sut = BreedsRepositoryImpl(catApiService)
+            sut = BreedsRepositoryImpl(catApiService, timeUtils)
 
             val result = sut.getAllBreeds()
 
@@ -41,11 +47,11 @@ internal class BreedsRepositoryImplTest {
             assertTrue { (result as DomainResponse.Content<List<BreedDomainEntity>>).result.size == domainEntityList.size }
         }
 
-    @Test
+    @Test(expected = IllegalArgumentException::class)
     fun `given catApiService returns error, when service is called, then DomainResponse Error returned`() =
         runBlocking {
             coEvery { catApiService.getAllBreeds() } throws IllegalArgumentException()
-            sut = BreedsRepositoryImpl(catApiService)
+            sut = BreedsRepositoryImpl(catApiService, timeUtils)
 
             val result = sut.getAllBreeds()
 

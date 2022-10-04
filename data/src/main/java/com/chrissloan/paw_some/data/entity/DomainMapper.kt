@@ -12,8 +12,8 @@ fun BreedApiEntity.toDomain() = BreedDomainEntity(
     altNames = altNames.orEmpty(),
     wikiUrl = wikiUrl.orEmpty(),
     origin = origin.orEmpty(),
-    weight = weight?.let { WeightDomainEntity(imperial = it.imperial.orEmpty(), metric = it.metric.orEmpty()) }.orEmpty(),
-    image = image?.let { ImageDomainEntity(id = it.id, width = it.width.orEmpty(), height = it.height.orEmpty(), url = it.url.orEmpty()) }.orEmpty(),
+    weight = weight?.toDomain().orEmpty(),
+    image = image?.toDomain().orEmpty(),
     countryCodes = countryCodes.orEmpty(),
     countryCode = countryCode.orEmpty(),
     description = description.orEmpty(),
@@ -42,7 +42,20 @@ fun BreedApiEntity.toDomain() = BreedDomainEntity(
     hypoallergenic = hypoallergenic.orEmpty()
 )
 
+fun WeightApiEntity.toDomain() =
+    WeightDomainEntity(
+        imperial = this.imperial,
+        metric = this.metric
+    )
+
+fun ImageApiEntity.toDomain() =
+    ImageDomainEntity(
+        id = this.id,
+        width = this.width,
+        height = this.height,
+        url = this.url
+    )
 
 private fun Int?.orEmpty() = this ?: 0
-private fun ImageDomainEntity?.orEmpty()  = this ?: ImageDomainEntity("",0, 0, "")
-private fun WeightDomainEntity?.orEmpty()  = this ?: WeightDomainEntity("","")
+private fun ImageDomainEntity?.orEmpty() = this ?: ImageDomainEntity("", 0, 0, "")
+private fun WeightDomainEntity?.orEmpty() = this ?: WeightDomainEntity("", "")

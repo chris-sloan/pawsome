@@ -7,6 +7,7 @@ object Versions {
 
     const val coroutines = "1.3.4"
 
+    const val googleMaterial = "1.8.0-alpha01"
     const val material3 = "1.0.0-alpha02"
     const val activityCompose = "1.3.1"
     const val compose = "1.3.1"

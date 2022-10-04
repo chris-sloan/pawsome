@@ -5,6 +5,7 @@ import com.chrissloan.paw_some.data.service.CatApiService
 import com.chrissloan.paw_some.data.utils.TimeUtils
 import com.chrissloan.paw_some.domain.core.DomainResponse
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
+import com.chrissloan.paw_some.domain.entity.ImageDomainEntity
 import com.chrissloan.paw_some.domain.repository.BreedsRepository
 
 class BreedsRepositoryImpl(
@@ -17,13 +18,30 @@ class BreedsRepositoryImpl(
 
     override suspend fun getAllBreeds(): DomainResponse<List<BreedDomainEntity>> {
         if (isCacheExpired()) {
-            fetchFromApi()
+            fetchBreedsFromApi()
         }
         return domainResponse { cache?.items ?: emptyList() }
     }
 
-    private suspend fun fetchFromApi():  List<BreedDomainEntity> {
-        val allBreeds = apiService.getAllBreeds()
+    // TODO create cache here also
+    override suspend fun getImages(breedId: String): DomainResponse<List<ImageDomainEntity>> =
+        domainResponse {
+            apiService.getBreedImages(breedId)
+        }
+
+    override suspend fun getBreed(breedId: String): BreedDomainEntity? {
+        if (isCacheExpired()) {
+            fetchBreedsFromApi()
+        }
+        return cache?.items?.firstOrNull { it.id == breedId }
+    }
+
+    private suspend fun fetchBreedsFromApi():  List<BreedDomainEntity> {
+        val allBreeds = try {
+            apiService.getAllBreeds()
+        } catch (e: Exception) {
+            throw e
+        }
         cache = MemoryCache(timeUtils.currentTime(), allBreeds)
         return allBreeds
     }

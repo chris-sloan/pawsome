@@ -42,7 +42,7 @@ fun DependencyHandler.composeDebug() {
 }
 
 fun DependencyHandler.material3() {
-    implementation("com.google.android.material:material:1.8.0-alpha")
+    implementation("com.google.android.material:material:${Versions.googleMaterial}")
     implementation("androidx.compose.material3:material3:${Versions.material3}")
 }
 
