@@ -35,4 +35,4 @@ Click on an image (eventually) to enlarge it and view it in it's full glory.
 - Refine UI
 - Previews
 - Tests
-- 
+- Work out how to show emojis in a README
