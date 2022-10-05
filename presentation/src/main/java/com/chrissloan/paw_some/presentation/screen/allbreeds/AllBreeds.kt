@@ -1,5 +1,7 @@
 package com.chrissloan.paw_some.presentation.screen.allbreeds
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,15 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.DrawerValue
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberDrawerState
@@ -34,7 +33,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -42,6 +40,7 @@ import coil.request.ImageRequest
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.presentation.R
 import com.chrissloan.paw_some.presentation.common.LoadingView
+import com.chrissloan.paw_some.presentation.common.PawsomeAppBar
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsAction.ErrorMessageShown
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent.ShowBreed
@@ -77,19 +76,12 @@ fun AllBreedsScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                title = { Text("Pawsome") },
-                backgroundColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary,
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            scope.launch { scaffoldState.drawerState.open() }
-                        }
-                    ) {
-                        Icon(Icons.Filled.Settings, "Filters Drawer")
-                    }
-                }
+            PawsomeAppBar(
+                title = { "Pawsome" },
+                navIconVector = { Icons.Filled.Settings },
+                navIconContentDescription = { "Filters Drawer" },
+                onNavIconClicked = { { scope.launch { scaffoldState.drawerState.open() } } },
+                actionIcon = { }
             )
         },
         drawerContent = { Text(text = "drawerContent") },
@@ -118,23 +110,34 @@ fun AllBreedsList(
         modifier = Modifier.padding(vertical = 4.dp),
         state = scrollState,
     ) {
-        items(items = breeds()) { breed ->
+        itemsIndexed(items = breeds()) { index, breed ->
+            val isEven = index % 2 == 0
+            val background =
+                if (isEven) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surface
+            val content =
+                if (isEven) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
             Card(
-                backgroundColor = MaterialTheme.colorScheme.background,
+                backgroundColor = background,
+                contentColor = content,
                 modifier = Modifier
                     .padding(8.dp)
                     .clickable { clickListener(breed) },
                 elevation = 8.dp
             ) {
-                CardContent(breed)
+                CardContent(breed, isEven)
             }
         }
     }
 }
 
 @Composable
-private fun CardContent(breed: BreedDomainEntity) {
-    val showImage = breed.image.url != null
+private fun CardContent(
+    breed: BreedDomainEntity,
+    isEven: Boolean
+) {
+    val showImage = breed.image.url.isNullOrEmpty().not()
+    val placeholderBackground =
+        if (isEven) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -142,18 +145,30 @@ private fun CardContent(breed: BreedDomainEntity) {
         verticalAlignment = Alignment.CenterVertically,
 
         ) {
+        val painter = painterResource(R.drawable.image_placeholder)
+        val contentDescription = breed.name
+        val contentScale = ContentScale.Crop
+        val modifier = Modifier
+            .size(80.dp)
+            .clip(CircleShape)
         if (showImage) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(breed.image.url)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.image_placeholder),
-                contentDescription = breed.name,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(size = 4.dp))
+                placeholder = painter,
+                contentDescription = contentDescription,
+                contentScale = contentScale,
+                modifier = modifier,
+            )
+        } else {
+            Image(
+                painter = painter,
+                contentDescription = contentDescription,
+                contentScale = contentScale,
+                modifier = modifier.background(placeholderBackground)
+
             )
         }
         Spacer(
@@ -162,10 +177,7 @@ private fun CardContent(breed: BreedDomainEntity) {
         )
         Text(
             text = breed.name,
-            color = MaterialTheme.colorScheme.secondary,
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontWeight = FontWeight.SemiBold
-            ),
+            style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Start,
             fontFamily = FontFamily.SansSerif
         )
