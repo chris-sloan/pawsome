@@ -139,7 +139,7 @@ fun BreedDetailScreen(
                     }
                     BreedImages(
                         images = { uiState.images },
-                        clickListener = { println("<<<<< - $it") },
+                        clickListener = { image -> println("<<<<< - TODO Full screen size expand - $image") },
                         breedName = uiState.breed?.name.orEmpty()
                     )
                 }
