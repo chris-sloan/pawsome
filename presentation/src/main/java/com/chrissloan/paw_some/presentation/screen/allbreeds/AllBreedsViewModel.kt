@@ -41,6 +41,17 @@ class AllBreedsViewModel(
         }
     }
 
+    fun applyFilter() {
+        /**
+         * We don't handle any filters yet, so let the user know,
+         * but do nothing else
+         */
+
+        uiState = uiState.copy(
+            errorMessage = DEFAULT_FILTER_NOT_ACTIVE_MESSAGE
+        )
+    }
+
     fun handleBreedSelectionAction(breedDomainEntity: BreedDomainEntity) {
         uiState = uiState.copy(
             navigationEvent = AllBreedsNavigationEvent.ShowBreed(breedDomainEntity)
@@ -65,7 +76,8 @@ class AllBreedsViewModel(
         val isLoading: Boolean = true,
         val breeds: List<BreedDomainEntity> = emptyList(),
         val errorMessage: String? = null,
-        val navigationEvent: AllBreedsNavigationEvent? = null
+        val navigationEvent: AllBreedsNavigationEvent? = null,
+        val filterProperties: List<FilterProperty> = FilterProperty.allProperties()
     )
 
     @Stable
@@ -82,5 +94,7 @@ class AllBreedsViewModel(
     companion object {
         private const val DEFAULT_ERROR_MESSAGE =
             "There has been a problem, please try again later."
+        private const val DEFAULT_FILTER_NOT_ACTIVE_MESSAGE =
+            "The filters are not yet active. Please try again later"
     }
 }

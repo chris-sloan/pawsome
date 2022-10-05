@@ -84,7 +84,16 @@ fun AllBreedsScreen(
                 actionIcon = { }
             )
         },
-        drawerContent = { Text(text = "drawerContent") },
+        drawerContent = {
+            FiltersDrawerContent(
+                onApply = {
+                    scope.launch { scaffoldState.drawerState.close() }
+                    viewModel.applyFilter()
+                },
+                onCancel = { scope.launch { scaffoldState.drawerState.close() } }
+
+            )
+        },
     ) {
         Surface(modifier = Modifier.padding(it)) {
             if (uiState.isLoading) {
@@ -193,5 +202,3 @@ fun HandleNavigationEvent(
         is ShowBreed -> onBreedSelected(navigationEvent.breed)
     }
 }
-
-
