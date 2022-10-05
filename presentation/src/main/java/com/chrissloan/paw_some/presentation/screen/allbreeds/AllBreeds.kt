@@ -13,10 +13,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.DrawerValue
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberDrawerState
@@ -42,6 +39,7 @@ import coil.request.ImageRequest
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.presentation.R
 import com.chrissloan.paw_some.presentation.common.LoadingView
+import com.chrissloan.paw_some.presentation.common.PawsomeAppBar
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsAction.ErrorMessageShown
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent.ShowBreed
@@ -77,19 +75,12 @@ fun AllBreedsScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                title = { Text("Pawsome") },
-                backgroundColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary,
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            scope.launch { scaffoldState.drawerState.open() }
-                        }
-                    ) {
-                        Icon(Icons.Filled.Settings, "Filters Drawer")
-                    }
-                }
+            PawsomeAppBar(
+                title = { "Pawsome" },
+                navIconVector = { Icons.Filled.Settings },
+                navIconContentDescription = { "Filters Drawer" },
+                onNavIconClicked = { { scope.launch { scaffoldState.drawerState.open() } } },
+                actionIcon = { }
             )
         },
         drawerContent = { Text(text = "drawerContent") },

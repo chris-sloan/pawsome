@@ -24,9 +24,7 @@ fun SetupNavGraph(navController: NavHostController) {
                             newValue = breed.id,
                             ignoreCase = false
                         )
-                    ) {
-                        popUpTo(Screen.Breeds.route)
-                    }
+                    )
                 }
             )
         }
@@ -35,7 +33,8 @@ fun SetupNavGraph(navController: NavHostController) {
             arguments = listOf(navArgument("breedId") { type = NavType.StringType })
         ) { backStackEntry ->
             BreedDetailScreen(
-                breedId = backStackEntry.arguments?.getString("breedId").orEmpty()
+                breedId = backStackEntry.arguments?.getString("breedId").orEmpty(),
+                onBackClicked = { navController.popBackStack() }
             )
         }
     }
