@@ -20,8 +20,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.outlined.KeyboardArrowDown
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -123,11 +123,11 @@ fun BreedDetailScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateContentSize(
-                            animationSpec = spring(
-                                dampingRatio = Spring.DampingRatioMediumBouncy,
-                                stiffness = Spring.StiffnessLow
+                                animationSpec = spring(
+                                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                                    stiffness = Spring.StiffnessLow
+                                )
                             )
-                        )
                     ) {
                         if (expanded) {
                             Text(
@@ -153,7 +153,7 @@ fun RevealActionIcon(
     onClick: () -> Unit
 ) {
     Icon(
-        imageVector = Icons.Outlined.KeyboardArrowDown,
+        imageVector = Icons.Outlined.Info,
         tint = MaterialTheme.colorScheme.onSecondaryContainer,
         modifier = Modifier
             .clickable { onClick() }
@@ -168,7 +168,7 @@ fun CloseActionIcon(
     onClick: () -> Unit
 ) {
     Icon(
-        imageVector = Icons.Outlined.KeyboardArrowUp,
+        imageVector = Icons.Filled.Info,
         tint = MaterialTheme.colorScheme.onSecondaryContainer,
         modifier = Modifier
             .clickable { onClick() }

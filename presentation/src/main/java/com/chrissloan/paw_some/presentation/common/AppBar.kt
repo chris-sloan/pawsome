@@ -1,12 +1,13 @@
 package com.chrissloan.paw_some.presentation.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 fun Modifier.appBarThemed(): Modifier = composed {
     Modifier.background(MaterialTheme.colorScheme.secondaryContainer)
@@ -30,10 +32,11 @@ fun PawsomeAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actionIcon: @Composable () -> Unit
 ) {
-    SmallTopAppBar(
+    MediumTopAppBar(
         title = {
             Text(
                 text = title(),
+                modifier = Modifier.padding(8.dp),
                 style = MaterialTheme.typography.headlineMedium,
             )
         },
