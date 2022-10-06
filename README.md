@@ -8,13 +8,21 @@ Welcome to Paw-some. A simple Cat image loader, and given that cat images power 
 ### All Breeds Screen 
 
 This screen lists all available breeds. Scroll up and down and select your favourite. 
-There's a drawer on the left which (eventually) will allow you to filter and order the breeds.
+There's a drawer on the left which will allow you to filter and order the breeds. Currently you can view and interact with the available filters.
+
+#### Next Steps 
+
+- Implement filtering
 
 ### Breed Detail Screen.
 
 This screen is where the party is at. The images shown are tagged as per your chosen breed. (User content sometimes though, so I find it's not always accurate, great nonetheless).
-Pull down on the top bar (eventually) to see the detail of the chosen breed. 
-Click on an image (eventually) to enlarge it and view it in it's full glory.
+Expand the top bar to see further detail of the chosen breed. 
+
+### Next Steps 
+
+- Navigate to the wiki url, if it is available.
+- Expand images on user clicks.
 
 ## Technologies Used
 
@@ -28,11 +36,23 @@ Click on an image (eventually) to enlarge it and view it in it's full glory.
 - Coil for image loading. 
 - junit and mockK for unit tests
 
+## Development Approach.
+
+- Evaluate API, and create account
+- Create new project, repo, set up build scripts etc.
+- Migrate to clean multi module architecture
+- Add some CI set up in github actions
+- Starting with the first api call begin to implement the code and first iterations of UI
+- Step back and evaluate. Decide on next steps.
+- Refine / Improve / Optimise / etc.
+- Finalise README documentation.
+
 ## TODO's
 
-- Implement drawer filtering options on All Breeds - explain no functionality yet
-- Implement drawer options on Breed Detail - show seek bar with ratings (re-use styling in filters)
-- Refine UI
+- Hide the api key in some sort of local.properties file. Use CI to inject it at build time. (then close existing account)
 - Previews
-- Tests
+- Further UI Tests
+- Compose Tests
+- Implement Room for improved caching. 
+- Improve error handling / network status observing. 
 - Work out how to show emojis in a README
