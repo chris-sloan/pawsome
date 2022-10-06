@@ -1,4 +1,4 @@
-# Paw-some  - [![Android CI](https://github.com/chris-sloan/pawsome/actions/workflows/android.yml/badge.svg?branch=Update_README)](https://github.com/chris-sloan/pawsome/actions/workflows/android.yml)
+# Paw-some  - [![Android CI](https://github.com/chris-sloan/pawsome/actions/workflows/android.yml/badge.svg)](https://github.com/chris-sloan/pawsome/actions/workflows/android.yml)
 The purrfect cat finder app. :cat2
 
 Welcome to Paw-some. A simple Cat image loader, and given that cat images power the internet, you'll be doing your bit too.
