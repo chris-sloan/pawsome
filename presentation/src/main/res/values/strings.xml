@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Paw-some</string>
+
+    <string name="content_description_filters_drawer">Filters Drawer</string>
+    <string name="content_description_up_button">Return to Breeds list</string>
+    <string name="content_description_hide_expanded">Hide Expanded Details</string>
+    <string name="content_description_show_expanded">Show Expanded Details</string>
+    <string name="content_description_selectedbreed_image">Image of %s</string>
+
+    <string name="filters_title">Filters</string>
+    <string name="filters_apply">Apply</string>
+    <string name="filters_cancel">Cancel</string>
+
+    <string-array name="expanded_breed_property">
+        <item>Synopsis</item>
+        <item>Temperament</item>
+        <item>Origin</item>
+        <item>Wikipedia Url</item>
+    </string-array>
+
+    <string-array name="filter_property">
+        <item>Adaptability</item>
+        <item>Affection Level</item>
+        <item>Child Friendly</item>
+        <item>Dog Friendly</item>
+        <item>Energy Level</item>
+        <item>Experimental</item>
+        <item>Grooming</item>
+        <item>Hairless</item>
+        <item>Health Issues</item>
+        <item>Hypoallergenic</item>
+        <item>Indoor</item>
+        <item>Intelligence</item>
+        <item>Natural</item>
+        <item>Shedding Level</item>
+        <item>Short Legs</item>
+        <item>Social Needs</item>
+        <item>Stranger Friendly</item>
+        <item>Suppressed Tail</item>
+        <item>Rare</item>
+        <item>Rex</item>
+        <item>Vocalisation</item>
+    </string-array>
+
+    <!-- Error -->
+    <string name="error_default_message">There has been a problem, please try again later.</string>
+    <string name="error_filter_not_active">The filters are not yet active. Please try again later</string>
+    <string name="error_image_selection_not_yet_available">Tapping on an image won\'t do anything right now. Please try again later</string>
+</resources>

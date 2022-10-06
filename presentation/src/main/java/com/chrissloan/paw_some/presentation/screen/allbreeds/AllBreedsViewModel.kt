@@ -1,5 +1,6 @@
 package com.chrissloan.paw_some.presentation.screen.allbreeds
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +12,7 @@ import com.chrissloan.paw_some.domain.core.DomainResponse.Error
 import com.chrissloan.paw_some.domain.core.DomainResponse.Loading
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.domain.usecase.FetchBreedsUseCase
+import com.chrissloan.paw_some.presentation.R
 import kotlinx.coroutines.launch
 
 @Stable
@@ -32,11 +34,11 @@ class AllBreedsViewModel(
                     is Content -> uiState.copy(isLoading = false, breeds = response.result)
                     is Error -> uiState.copy(
                         isLoading = false,
-                        errorMessage = response.exception.message ?: DEFAULT_ERROR_MESSAGE
+                        errorMessageId = DEFAULT_ERROR_MESSAGE
                     )
                 }
             } catch (e: Exception) {
-                uiState.copy(isLoading = false, errorMessage = DEFAULT_ERROR_MESSAGE)
+                uiState.copy(isLoading = false, errorMessageId = DEFAULT_ERROR_MESSAGE)
             }
         }
     }
@@ -48,7 +50,7 @@ class AllBreedsViewModel(
          */
 
         uiState = uiState.copy(
-            errorMessage = DEFAULT_FILTER_NOT_ACTIVE_MESSAGE
+            errorMessageId = DEFAULT_FILTER_NOT_ACTIVE_MESSAGE
         )
     }
 
@@ -63,7 +65,7 @@ class AllBreedsViewModel(
             is AllBreedsAction.BreedSelected -> uiState.copy(
                 navigationEvent = AllBreedsNavigationEvent.ShowBreed(action.breed)
             )
-            AllBreedsAction.ErrorMessageShown -> uiState.copy(errorMessage = null)
+            AllBreedsAction.ErrorMessageShown -> uiState.copy(errorMessageId = null)
         }
     }
 
@@ -75,9 +77,8 @@ class AllBreedsViewModel(
     data class AllBreedsUiState(
         val isLoading: Boolean = true,
         val breeds: List<BreedDomainEntity> = emptyList(),
-        val errorMessage: String? = null,
-        val navigationEvent: AllBreedsNavigationEvent? = null,
-        val filterProperties: List<FilterProperty> = FilterProperty.allProperties()
+        @StringRes val errorMessageId: Int? = null,
+        val navigationEvent: AllBreedsNavigationEvent? = null
     )
 
     @Stable
@@ -92,9 +93,7 @@ class AllBreedsViewModel(
     }
 
     companion object {
-        private const val DEFAULT_ERROR_MESSAGE =
-            "There has been a problem, please try again later."
-        private const val DEFAULT_FILTER_NOT_ACTIVE_MESSAGE =
-            "The filters are not yet active. Please try again later"
+        private val DEFAULT_ERROR_MESSAGE = R.string.error_default_message
+        private val DEFAULT_FILTER_NOT_ACTIVE_MESSAGE = R.string.error_filter_not_active
     }
 }
