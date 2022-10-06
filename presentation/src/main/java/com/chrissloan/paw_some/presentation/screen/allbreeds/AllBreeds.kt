@@ -24,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -39,10 +39,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.presentation.R
+import com.chrissloan.paw_some.presentation.common.ErrorView
 import com.chrissloan.paw_some.presentation.common.LoadingView
 import com.chrissloan.paw_some.presentation.common.PawsomeAppBar
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsAction.ErrorMessageShown
-import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent
 import com.chrissloan.paw_some.presentation.screen.allbreeds.AllBreedsViewModel.AllBreedsNavigationEvent.ShowBreed
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -64,22 +64,26 @@ fun AllBreedsScreen(
         )
     }
 
-    if (uiState.errorMessage != null) {
-        LaunchedEffect(key1 = uiState.errorMessage) {
-            scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(message = uiState.errorMessage)
-                viewModel.handleAction(ErrorMessageShown)
-            }
+    if (uiState.errorMessageId != null) {
+        ErrorView(
+            messageId = uiState.errorMessageId,
+            scope = scope,
+            scaffoldState = scaffoldState
+        ) {
+            viewModel.handleAction(ErrorMessageShown)
         }
     }
+
+    val title = stringResource(id = R.string.app_name)
+    val filtersContentDescription = stringResource(id = R.string.content_description_filters_drawer)
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             PawsomeAppBar(
-                title = { "Pawsome" },
+                title = { title },
                 navIconVector = { Icons.Filled.Settings },
-                navIconContentDescription = { "Filters Drawer" },
+                navIconContentDescription = { filtersContentDescription },
                 onNavIconClicked = { { scope.launch { scaffoldState.drawerState.open() } } },
                 actionIcon = { }
             )
@@ -195,7 +199,7 @@ private fun CardContent(
 
 @Composable
 fun HandleNavigationEvent(
-    navigationEvent: AllBreedsNavigationEvent,
+    navigationEvent: AllBreedsViewModel.AllBreedsNavigationEvent,
     onBreedSelected: (BreedDomainEntity) -> Unit
 ) {
     when (navigationEvent) {

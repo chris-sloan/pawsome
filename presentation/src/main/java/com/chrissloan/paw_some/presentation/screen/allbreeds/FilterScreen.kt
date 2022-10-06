@@ -23,8 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.chrissloan.paw_some.presentation.R
 
 @Composable
 fun FiltersDrawerContent(
@@ -41,27 +44,12 @@ fun FiltersDrawerContent(
                 .fillMaxSize()
                 .padding(top = 16.dp)
         ) {
+            val properties = stringArrayResource(id = R.array.filter_property)
             LazyColumn {
-                item {
-                    Text(
-                        "Filters",
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                    Row(
-                        horizontalArrangement = Arrangement.End,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        CancelButton(onCancel = onCancel)
-                        ApplyButton(onApply = onApply)
-                    }
-                }
-                FilterProperty.allProperties().forEach { property ->
-                    item(key = property.label) {
+                item { FilterHeader(onCancel, onApply) }
+
+                properties.forEach { property ->
+                    item(key = property) {
                         BreedProperty(
                             property = property
                         )
@@ -71,6 +59,32 @@ fun FiltersDrawerContent(
         }
     }
 }
+
+@Composable
+private fun FilterHeader(
+    onCancel: () -> Unit,
+    onApply: () -> Unit
+) {
+
+    val title = stringResource(id = R.string.filters_title)
+    Text(
+        text = title,
+        modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.headlineSmall
+    )
+    Row(
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        CancelButton(onCancel = onCancel)
+        ApplyButton(onApply = onApply)
+    }
+}
+
 
 @Composable
 fun CancelButton(
@@ -85,7 +99,7 @@ fun CancelButton(
         )
     ) {
         Text(
-            text = "Cancel",
+            text = stringResource(id = R.string.filters_cancel),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge
         )
@@ -104,7 +118,7 @@ fun ApplyButton(
         )
     ) {
         Text(
-            text = "Apply",
+            text = stringResource(id = R.string.filters_apply),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge
         )
@@ -114,14 +128,14 @@ fun ApplyButton(
 
 @Composable
 fun BreedProperty(
-    property: FilterProperty
+    property: String
 ) {
     var sliderPosition by remember { mutableStateOf(0f) }
 
     Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 4.dp)) {
         Divider()
         Text(
-            text = property.label,
+            text = property,
             modifier = Modifier
                 .padding(top = 8.dp)
                 .height(24.dp),

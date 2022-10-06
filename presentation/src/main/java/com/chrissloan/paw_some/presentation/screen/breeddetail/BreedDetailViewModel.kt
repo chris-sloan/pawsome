@@ -11,6 +11,7 @@ import com.chrissloan.paw_some.domain.entity.BreedDomainEntity
 import com.chrissloan.paw_some.domain.entity.ImageDomainEntity
 import com.chrissloan.paw_some.domain.usecase.BreedDetailUseCase
 import com.chrissloan.paw_some.domain.usecase.BreedImagesUseCase
+import com.chrissloan.paw_some.presentation.R
 import kotlinx.coroutines.launch
 
 class BreedDetailViewModel(
@@ -37,7 +38,7 @@ class BreedDetailViewModel(
                 )
                 is DomainResponse.Error -> uiState.copy(
                     isLoading = false,
-                    errorMessage = domainResponse.exception.message
+                    errorMessageId = R.string.error_default_message
                 )
             }
         }
@@ -50,9 +51,23 @@ class BreedDetailViewModel(
         }
     }
 
+    // TODO - Would be better to get the StringRes here,
+    fun getPropertyContent(property: String) =
+        when (property) {
+            "Synopsis" -> uiState.breed?.description.orEmpty()
+            "Temperament" -> uiState.breed?.temperament.orEmpty()
+            "Origin" -> uiState.breed?.origin.orEmpty()
+            "Wikipedia Url" -> uiState.breed?.wikiUrl.orEmpty()
+            else -> null
+        }
 
     fun handleAction(action: BreedDetailAction) {
-        // TODO
+        uiState = when (action) {
+            BreedDetailAction.ErrorMessageShown -> uiState.copy(errorMessageId = null)
+            is BreedDetailAction.ImageSelected -> {
+                uiState.copy(errorMessageId = R.string.error_image_selection_not_yet_available)
+            }
+        }
     }
 
     @Stable
@@ -60,15 +75,12 @@ class BreedDetailViewModel(
         val isLoading: Boolean = true,
         val breed: BreedDomainEntity? = null,
         val images: List<ImageDomainEntity> = emptyList(),
-        val errorMessage: String? = null,
+        val errorMessageId: Int? = null,
     )
 
     @Stable
     sealed class BreedDetailAction {
         object ErrorMessageShown : BreedDetailAction()
-        data class ImageSelected(val image: BreedImageDomainEntity) : BreedDetailAction()
+        data class ImageSelected(val image: ImageDomainEntity) : BreedDetailAction()
     }
-
-    // TODO move to damain.
-    class BreedImageDomainEntity
 }
