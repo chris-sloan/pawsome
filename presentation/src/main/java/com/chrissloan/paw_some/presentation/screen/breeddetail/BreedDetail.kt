@@ -15,7 +15,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.DrawerValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -55,7 +57,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun BreedDetailScreen(
     breedId: String,
@@ -103,7 +105,6 @@ fun BreedDetailScreen(
                 }
             )
         },
-        drawerContent = { Text(text = "${uiState.breed}") },
     ) {
         Surface(
             modifier = Modifier
@@ -118,9 +119,11 @@ fun BreedDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
+
                 ) {
                     Surface(
                         modifier = Modifier
+                            .appBarThemed()
                             .fillMaxWidth()
                             .animateContentSize(
                                 animationSpec = spring(
@@ -130,11 +133,28 @@ fun BreedDetailScreen(
                             )
                     ) {
                         if (expanded) {
-                            Text(
-                                text = ("Composem ipsum color sit lazy, " +
-                                        "padding theme elit, sed do bouncy. ").repeat(4),
-                                modifier = Modifier.appBarThemed()
-                            )
+                            Column(
+                                modifier = Modifier
+                                    .appBarThemed()
+                            ) {
+                                ExpandedBreedProperty(
+                                    name = { "Synopsis" },
+                                    value = { uiState.breed?.description.orEmpty() }
+                                )
+                                ExpandedBreedProperty(
+                                    name = { "Temperament" },
+                                    value = { uiState.breed?.temperament.orEmpty() }
+                                )
+                                ExpandedBreedProperty(
+                                    name = { "Origin" },
+                                    value = { uiState.breed?.origin.orEmpty() }
+                                )
+                                ExpandedBreedProperty(
+                                    name = { "Wikipedia Url" },
+                                    value = { uiState.breed?.wikiUrl.orEmpty() },
+                                    isLink = true
+                                )
+                            }
                         }
                     }
                     BreedImages(
@@ -149,6 +169,40 @@ fun BreedDetailScreen(
 }
 
 @Composable
+fun ExpandedBreedProperty(
+    name: () -> String,
+    value: () -> String,
+    isLink: Boolean = false
+) {
+    Column(
+        modifier = Modifier
+            .appBarThemed()
+            .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
+    ) {
+        Divider()
+        Text(
+            text = name(),
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .height(24.dp),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        val style = if (isLink) {
+            MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.primary)
+        } else {
+            MaterialTheme.typography.bodyLarge
+        }
+        Text(
+            text = value(),
+            modifier = Modifier
+                .padding(top = 8.dp),
+            style = style
+        )
+    }
+}
+
+@Composable
 fun RevealActionIcon(
     onClick: () -> Unit
 ) {
@@ -159,7 +213,7 @@ fun RevealActionIcon(
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 16.dp)
             .height(24.dp),
-        contentDescription = "Show Breed Details"
+        contentDescription = "Show Expanded Details"
     )
 }
 
@@ -174,7 +228,7 @@ fun CloseActionIcon(
             .clickable { onClick() }
             .padding(horizontal = 12.dp, vertical = 16.dp)
             .height(24.dp),
-        contentDescription = "Hide Breed Details"
+        contentDescription = "Hide Expanded Details"
     )
 }
 
