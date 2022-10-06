@@ -19,7 +19,7 @@ There's a drawer on the left which will allow you to filter and order the breeds
 This screen is where the party is at. The images shown are tagged as per your chosen breed. (User content sometimes though, so I find it's not always accurate, great nonetheless).
 Expand the top bar to see further detail of the chosen breed. 
 
-### Next Steps 
+#### Next Steps 
 
 - Navigate to the wiki url, if it is available.
 - Expand images on user clicks.
